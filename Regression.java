@@ -14,104 +14,104 @@ public class Regression implements Writable
 {
     /* variables membre */
     private long n;
-    private double SxAge;
-    private double Sx2Age;
+    private double Sx;
+    private double Sx2;
     
-    private double SxHeight;
-    private double Sx2Height;
+    private double Sy;
+    private double Sy2;
     
-    private double SumAgexTaille;
+    private double SumXxY;
 
     /** constructeur */
     public Regression()
     {
         n = 0L;
-        SxAge = 0.0;
-        Sx2Age = 0.0;
+        Sx = 0.0;
+        Sx2 = 0.0;
         
-        SxHeight = 0.0;
-        Sx2Height = 0.0;
+        Sy = 0.0;
+        Sy2 = 0.0;
         
-        SumAgexTaille = 0.0;
+        SumXxY = 0.0;
     }
 
     /** écrit this sur sortie, méthode de l'interface Writable */
     public void write(DataOutput sortie) throws IOException
     {
         sortie.writeLong(n);
-        sortie.writeDouble(SxAge);
-        sortie.writeDouble(Sx2Age);
+        sortie.writeDouble(Sx);
+        sortie.writeDouble(Sx2);
         
-        sortie.writeDouble(SxHeight);
-        sortie.writeDouble(Sx2Height);
+        sortie.writeDouble(Sy);
+        sortie.writeDouble(Sy2);
         
-        sortie.writeDouble(SumAgexTaille);
+        sortie.writeDouble(SumXxY);
     }
 
     /** lit this à partir de l'entree, méthode de l'interface Writable */
     public void readFields(DataInput entree) throws IOException
     {
         n = entree.readLong();
-        SxAge = entree.readDouble();
-        Sx2Age = entree.readDouble();
+        Sx = entree.readDouble();
+        Sx2 = entree.readDouble();
         
-        SxHeight = entree.readDouble();
-        Sx2Height = entree.readDouble();
+        Sy = entree.readDouble();
+        Sy2 = entree.readDouble();
         
-        SumAgexTaille = entree.readDouble();
+        SumXxY = entree.readDouble();
     }
 
     /**
      * initialise this à (1, valeur, valeur²)
      * @param valeur à mettre dans this
      */
-    public void set(double age, double height)
+    public void set(double x, double y)
     {
         n = 1L;
-        SxAge = age;
-        Sx2Age = age*age;
+        Sx = x;
+        Sx2 = x*x;
         
-        SxHeight = height;
-        Sx2Height = height*height;
+        Sy = y;
+        Sy2 = y*y;
         
-        SumAgexTaille = age*height;
+        SumXxY = x*y;
     }
     
 
     /**
      * ajoute autre à this
-     * @param autre
+     * @param other
      */
-    public void add(Regression autre)
+    public void add(Regression other)
     {
-        n += autre.n;
-        SxAge += autre.SxAge;
-        Sx2Age += autre.Sx2Age;
+        n += other.n;
+        Sx += other.Sx;
+        Sx2 += other.Sx2;
         
-        SxHeight += autre.SxHeight;
-        Sx2Height += autre.Sx2Height;
+        Sy += other.Sy;
+        Sy2 += other.Sy2;
         
-        SumAgexTaille += autre.SumAgexTaille;
+        SumXxY += other.SumXxY;
     }
     
-    public double getSxAge(){
-    	return SxAge;
+    public double getSx(){
+    	return Sx;
     }
     
-    public double getSx2Age(){
-    	return Sx2Age;
+    public double getSx2(){
+    	return Sx2;
     }
     
-    public double getSxHeight(){
-    	return SxHeight;
+    public double getSy(){
+    	return Sy;
     }
     
-    public double getSx2Height(){
-    	return Sx2Height;
+    public double getSy2(){
+    	return Sy2;
     }
     
-    public double getSumAgexTaille(){
-    	return SumAgexTaille;
+    public double getSumXxY(){
+    	return SumXxY;
     }
     
 
@@ -119,47 +119,63 @@ public class Regression implements Writable
      * calcule la moyenne représentée par this
      * @return moyenne des valeurs ajoutées à this
      */
-    public double getAgeMoyenne()
+    public double getXAverage()
     {
-        return SxAge/n;
+        return Sx/n;
     }
     
-    public double getAge2Moyenne()
+    public double getX2Average()
     {
-        return Sx2Age/n;
+        return Sx2/n;
     }
     
-    public double getHeightMoyenne()
+    public double getYAverage()
     {
-        return SxHeight/n;
+        return Sy/n;
     }
     
-    public double getHeight2Moyenne()
+    public double getY2Average()
     {
-        return Sx2Height/n;
+        return Sy2/n;
     }
 
     /**
      * calcule la variance représentée par this
      * @return variance des valeurs ajoutées à this
      */
-    public double getAgeVariance()
+    public double getXVariance()
     {
-        double Mx = SxAge / n;
-        double Mx2 = Sx2Age / n;
+        double Mx = Sx / n;
+        double Mx2 = Sx2 / n;
         return Mx2 - Mx * Mx;
     }
     
-    public double getHeightVariance()
+    public double getYVariance()
     {
-        double Mx = SxHeight / n;
-        double Mx2 = Sx2Height / n;
+        double Mx = Sy / n;
+        double Mx2 = Sy2 / n;
         return Mx2 - Mx * Mx;
     }
     
-    public double covariance()
+    public double getCovariance()
     {
-    	return SumAgexTaille / n - getAgeMoyenne() * getHeightMoyenne();
+    	return SumXxY / n - getXAverage() * getYAverage();
+    }
+    
+    public double getCorrelation(){
+    	double denom = Math.sqrt(getXVariance() * getYVariance());
+    	double covariance = getCovariance();
+    	if (covariance < 1 && covariance > -1 && denom < 1 && denom > -1){
+    		return 1;
+    	}
+    	return covariance/denom;
+    }
+    
+    public double[] getLinearModel(){
+    	double[] linearModel = new double[2];
+    	linearModel[1] = getCovariance() / getXVariance();
+    	linearModel[0] = getYAverage() - linearModel[1] * getXAverage();
+    	return linearModel;
     }
     
     public long getN(){

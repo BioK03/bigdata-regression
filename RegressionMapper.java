@@ -26,14 +26,16 @@ public class RegressionMapper
         	
         	double height = Double.parseDouble(extractData(valeurE, 5).toString());
         	double year = Double.parseDouble(extractData(valeurE, 6).toString());
+        	double circonference = Double.parseDouble(extractData(valeurE,  7).toString());
         	
         	if(height != 0d){
-        		valeurI.set(ageCalulation(year), height);
+        		valeurI.set(height, circonference);
         		
                 
         	}
-        	else throw new Exception("Tree height null");
-        	
+        	else{
+        		throw new Exception("Height problem");
+        	}
         	context.write(cleI, valeurI);
             
 

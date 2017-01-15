@@ -39,59 +39,73 @@ public class RegressionReducer
         context.write(new Text("n"), valeurS);
         
         // 1b
-        valeurS.set(regression.getSxAge());
-        context.write(new Text("Sx Age"), valeurS);
+        valeurS.set(regression.getSx());
+        context.write(new Text("Sx"), valeurS);
         
         // 1c
-        valeurS.set(regression.getSx2Age());
-        context.write(new Text("Sx² Age"), valeurS);
+        valeurS.set(regression.getSx2());
+        context.write(new Text("Sx²"), valeurS);
         
         // Variance
-        valeurS.set(regression.getAgeVariance());
-        context.write(new Text("Variance Age"), valeurS);
+        valeurS.set(regression.getXVariance());
+        context.write(new Text("X Variance"), valeurS);
         
         // 1d
-        valeurS.set(regression.getSxHeight());
-        context.write(new Text("Sx Height"), valeurS);
+        valeurS.set(regression.getSy());
+        context.write(new Text("Sy"), valeurS);
         
         // 	1e
-        valeurS.set(regression.getSx2Height());
-        context.write(new Text("Sx² Height"), valeurS);
+        valeurS.set(regression.getSy2());
+        context.write(new Text("Sy²"), valeurS);
         
         // 1f 
-        valeurS.set(regression.getSumAgexTaille());
-        context.write(new Text("Sum Age x Height"), valeurS);
+        valeurS.set(regression.getSumXxY());
+        context.write(new Text("Sum X x Y"), valeurS);
         
         // 2a
-        valeurS.set(regression.getAgeMoyenne());
-        context.write(new Text("Age average"), valeurS);
+        valeurS.set(regression.getXAverage());
+        context.write(new Text("X average"), valeurS);
         
         // 2b
-        valeurS.set(regression.getAge2Moyenne());
-        context.write(new Text("Age² average"), valeurS);
+        valeurS.set(regression.getX2Average());
+        context.write(new Text("X² average"), valeurS);
         
         // 	2c
-        valeurS.set(regression.getHeightMoyenne());
-        context.write(new Text("Height average"), valeurS);
+        valeurS.set(regression.getYAverage());
+        context.write(new Text("Y average"), valeurS);
         
         // 	2d
-        valeurS.set(regression.getHeight2Moyenne());
-        context.write(new Text("Height² average"), valeurS);
+        valeurS.set(regression.getY2Average());
+        context.write(new Text("Y² average"), valeurS);
         
         // 2e
-        valeurS.set(regression.getSumAgexTaille() / regression.getN());
-        context.write(new Text("Age x Height average"), valeurS);
+        valeurS.set(regression.getSumXxY() / regression.getN());
+        context.write(new Text("X x Y average"), valeurS);
         
         // 3a
-        valeurS.set(regression.getAgeVariance());
-        context.write(new Text("Age variance"), valeurS);
+        valeurS.set(regression.getXVariance());
+        context.write(new Text("X variance"), valeurS);
         
         // 3b
-        valeurS.set(regression.getHeightVariance());
-        context.write(new Text("Height variance"), valeurS);
+        valeurS.set(regression.getYVariance());
+        context.write(new Text("Y variance"), valeurS);
         
         // 3c
-        valeurS.set(regression.covariance());
+        valeurS.set(regression.getCovariance());
         context.write(new Text("Covariance"), valeurS);
+        
+        // 3d
+        valeurS.set(regression.getCorrelation());
+        context.write(new Text("Corrélation r"), valeurS);
+        
+        // 3e & 3f
+        double[] linearModel = regression.getLinearModel();
+        valeurS.set(linearModel[0]);
+        context.write(new Text("β0"), valeurS);
+        valeurS.set(linearModel[1]);
+        context.write(new Text("β1"), valeurS);
+        valeurS.set(0d);
+        context.write(new Text("yi = "+linearModel[0]+" + "+linearModel[1]+" * xi + ei"), valeurS);
+        
     }
 }
