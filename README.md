@@ -6,9 +6,7 @@ This repo is an example of Hadoop Map-Combiner-Reduce operation over CSV files.
 
 Regression is a Java program that gathers tree data from arbres2.csv file, representing a tree sample of Paris, FR.
 
-The goal of this is to calculate a covariance between the age and the height of the tree.
-
-The covariance of this example is about 54, so the two variables are linked.
+The goal of this is to calculate a covariance between the age, the corcumference and the height of the tree.
 
 ## File structure
 
