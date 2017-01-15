@@ -23,6 +23,17 @@ The main goal of this project is to calculate a correlation coefficient between 
  * Age and Circumference
  * Age and Height
  * Height and Circumference
+ 
+## Execute the project
+With hadoop installer, you must put the file on the hadoop disk :
+
+`hadoop fs -put arbres2.csv /test`
+
+Next, after having compiled the project (with Maven for example : `mvn clean package`), you will execute the project :
+
+`hadoop jar NameOfYourJar.jar RegressionDriver /test/arbres2.csv /results`
+
+You can see the results using <img src="http://gethue.com/wp-content/uploads/2014/03/hue_logo_300dpi_huge.png" height="15"/> (Hue) for example.
 
 ## Raw results
 
