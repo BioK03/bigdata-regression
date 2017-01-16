@@ -120,12 +120,12 @@ yi = 2343.843503008878 + -1.067054774498593 * xi + ei	0.0
 
 ## Possible Interpretation
 
- :warning: Due to a large diversity of the trees' species in Paris, these results are quite different (Or even the opposite) that with a realistic sample.
+ :warning: Due to a large diversity of the trees' species in Paris, these results are quite different that with a realistic and large sample.
  
  
- * In Paris, an older tree has a smaller circumference that a young one.
+ * In Paris, the age of a tree is linked to its circumference.
  * Paris' trees get taller with the time.
- * In this sample, a taller one has a smaller circumference that a smaller one.
+ * In this sample, the age of the tree is not so linked with its circumference.
  
 These conclusions might be conducted with the following facts :
  * Trees planted along streets rarely exceed 80 years.
